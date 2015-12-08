@@ -80,6 +80,6 @@ define splunk::inputs::monitor (
   concat::fragment { "inputs::monitor::${title}":
     target  => $target,
     order   => $order,
-    content => template("${module_name}/50-monitor.erb"),
+    content => template("${module_name}/inputs/50-monitor.erb"),
   }
 }
