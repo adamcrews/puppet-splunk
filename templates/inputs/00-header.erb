@@ -1,0 +1,30 @@
+[default]
+<% if @host %>
+host = <%= @host -%>
+<% end -%>
+<% if @index %>
+index = <%= @index -%>
+<% end -%>
+<% if @source %>
+source = <%= @source -%>
+<% end -%>
+<% if @sourcetype %>
+sourcetype = <%= @sourcetype -%>
+<% end -%>
+<% if @queue %>
+queue = <%= @queue -%>
+<% end -%>
+<% if @_tcp_routing %>
+_TCP_ROUTING = <%= @_tcp_routing -%>
+<% end -%>
+<% if @_syslog_routing %>
+_SYSLOG_ROUTING = <%= @_syslog_routing -%>
+<% end -%>
+<% if @_index_and_forward_routing %>
+_INDEX_AND_FORWARD_ROUTING = <%= @_index_and_forward_routing -%>
+<% end -%>
+<% if @custom_hash -%>
+  <% @custom_hash.sort.each do |key,value| -%>
+<%= key -%> = <%= value %>
+  <% end -%>
+<% end -%>
