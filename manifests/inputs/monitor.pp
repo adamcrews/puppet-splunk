@@ -77,7 +77,7 @@ define splunk::inputs::monitor (
     validate_bool($followsymlink)
   }
 
-  concat_fragment { "inputs::monitor::${title}":
+  concat::fragment { "inputs::monitor::${title}":
     target  => $target,
     order   => $order,
     content => template("${module_name}/50-monitor.erb"),

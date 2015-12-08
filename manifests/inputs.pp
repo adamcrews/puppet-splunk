@@ -89,7 +89,7 @@ class splunk::inputs (
     notify  => Class['splunk::service'],
   }
 
-  concat_fragment { "inputs.conf_header":
+  concat::fragment { "inputs.conf_header":
     target  => 'inputs.conf',
     order   => '01',
     content => template("${module_name}/inputs/01-header.erb"),
