@@ -6,6 +6,9 @@
 <% if @sourcetype -%>
   sourcetype = <%= @sourcetype %>
 <% end -%>
+<% if @queue -%>
+  queue = <%= @queue %>
+<% end -%>
 <% if @host_regex -%>
   host_regex = <%= @host_regex %>
 <% end -%>
@@ -45,4 +48,19 @@
 <% if @followsymlink -%>
   followSymlink = <%= @followsymlink %>
 <% end -%>
+<% if $_tcp_routing -%>
+  _TCP_ROUTING = <%= @_tcp_routing.join(',') %>
+<% end -%>
+<% if $_syslog_routing -%>
+  _SYSLOG_ROUTING = <%= @_syslog_routing.join(',') %>
+<% end -%>
+<% if $_index_and_forward_routing -%>
+  _INDEX_AND_FORWARD_ROUTING = <%= @_INDEX_AND_FORWARD_ROUTING %>
+<% end -%>
+<% if @custom_hash -%>
+  <% @custom_hash.sort.each do |key,value| -%>
+  <%= key %> = <%= value %>
+  <% end -%>
+<% end -%>
+
 

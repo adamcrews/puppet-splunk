@@ -12,6 +12,7 @@ define splunk::inputs::monitor (
   $index,
   $sourcetype                     = undef,
   $source                         = undef,
+  $queue                          = undef,
   $host_regex                     = undef,
   $host_segment                   = undef,
   $whitelist                      = undef,
@@ -25,6 +26,9 @@ define splunk::inputs::monitor (
   $multiline_event_extra_waittime = undef,
   $recursive                      = undef,
   $followsymlink                  = undef,
+  $_tcp_routing                   = undef,
+  $_syslog_routing                = undef,
+  $_index_and_forward_routing     = undef,
   $custom_hash                    = undef,
 ) {
 
@@ -34,6 +38,10 @@ define splunk::inputs::monitor (
 
   if $source {
     validate_absolute_path($source)
+  }
+  
+  if $queue { 
+    validate_re($path, '^(parsingQueue|indexQueue)$')
   }
 
   if $host_segment {
@@ -76,6 +84,16 @@ define splunk::inputs::monitor (
   if $followsymlink {
     validate_bool($followsymlink)
   }
+
+  if $_tcp_routing {
+    validate_array($_tcp_routing)
+  }
+
+  if $_syslog_routing {
+    validate_array($_syslog_routing)
+  }
+
+  validate_string($_index_and_forward_routing)
 
   concat::fragment { "inputs::monitor::${title}":
     target  => $target,
