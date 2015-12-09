@@ -11,7 +11,7 @@ define splunk::inputs::monitor (
 
   $index,
   $sourcetype                     = undef,
-  $source                         = undef,
+  $source                         = $title,
   $queue                          = undef,
   $host_regex                     = undef,
   $host_segment                   = undef,
@@ -32,7 +32,6 @@ define splunk::inputs::monitor (
   $custom_hash                    = undef,
 ) {
 
-  validate_absolute_path($title)
   validate_string($index)
   validate_string($sourcetype)
 
