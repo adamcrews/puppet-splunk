@@ -48,13 +48,13 @@
 <% if @followsymlink -%>
   followSymlink = <%= @followsymlink %>
 <% end -%>
-<% if $tcp_routing -%>
+<% if @tcp_routing -%>
   _TCP_ROUTING = <%= @tcp_routing.join(',') %>
 <% end -%>
-<% if $syslog_routing -%>
+<% if @syslog_routing -%>
   _SYSLOG_ROUTING = <%= @syslog_routing.join(',') %>
 <% end -%>
-<% if $_index_and_forward_routing -%>
+<% if @index_and_forward_routing -%>
   _INDEX_AND_FORWARD_ROUTING = <%= @index_and_forward_routing %>
 <% end -%>
 <% if @custom_hash -%>
