@@ -26,15 +26,15 @@
 #   The queuing method, parsingQueue or indexQueue.
 #   Default: undef
 #
-# [*_tcp_routing*]
+# [*tcp_routing*]
 #   An array of tcpout group names.
 #   Default: undef
 #
-# [*_syslog_routing*]
+# [*syslog_routing*]
 #   An array of syslog group names.
 #   Default: undef
 #
-# [*_index_and_forward_routing*]
+# [*index_and_forward_routing*]
 #   Causes all data coming from the input stanza to be labeled with
 #   the value.
 #   Default: undef
@@ -53,15 +53,15 @@
 class splunk::inputs (
   $path = "${::splunk::splunkhome}/etc/system/local",
 
-  $host                       = $::fqdn,
-  $index                      = undef,
-  $source                     = undef,
-  $sourcetype                 = undef,
-  $queue                      = undef,
-  $_tcp_routing               = undef,
-  $_syslog_routing            = undef,
-  $_index_and_forward_routing = undef,
-  $custom_hash                = undef,
+  $host                      = $::fqdn,
+  $index                     = undef,
+  $source                    = undef,
+  $sourcetype                = undef,
+  $queue                     = undef,
+  $tcp_routing               = undef,
+  $syslog_routing            = undef,
+  $index_and_forward_routing = undef,
+  $custom_hash               = undef,
   ) {
 
   validate_absolute_path("${path}/inputs.conf")
@@ -77,7 +77,13 @@ class splunk::inputs (
     validate_re($queue, '^(parsingQueue|indexQueue)')
   }
 
-  # more validation to come soon
+  if $tcp_routing { 
+    validate_array($tcp_routing)
+  }
+
+  if $syslog_routing { 
+    validate_array($syslog_routing)
+  }
 
   concat { 'inputs.conf':
     path    => "${path}/inputs.conf",

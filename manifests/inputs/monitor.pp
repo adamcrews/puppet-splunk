@@ -26,9 +26,9 @@ define splunk::inputs::monitor (
   $multiline_event_extra_waittime = undef,
   $recursive                      = undef,
   $followsymlink                  = undef,
-  $_tcp_routing                   = undef,
-  $_syslog_routing                = undef,
-  $_index_and_forward_routing     = undef,
+  $tcp_routing                    = undef,
+  $syslog_routing                 = undef,
+  $index_and_forward_routing      = undef,
   $custom_hash                    = undef,
 ) {
 
@@ -85,15 +85,15 @@ define splunk::inputs::monitor (
     validate_bool($followsymlink)
   }
 
-  if $_tcp_routing {
-    validate_array($_tcp_routing)
+  if $tcp_routing {
+    validate_array($tcp_routing)
   }
 
-  if $_syslog_routing {
-    validate_array($_syslog_routing)
+  if $syslog_routing {
+    validate_array($syslog_routing)
   }
 
-  validate_string($_index_and_forward_routing)
+  validate_string($index_and_forward_routing)
 
   concat::fragment { "inputs::monitor::${title}":
     target  => $target,
