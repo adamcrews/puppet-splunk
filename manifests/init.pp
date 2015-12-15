@@ -135,7 +135,7 @@ class splunk (
   case $type {
     'uf': {
       $splunkhome = $::osfamily ? {
-        'windows' => 'C:\Program Files\SplunkUniversalForwarder',
+        'windows' => 'C:/Program Files/SplunkUniversalForwarder',
         default   => '/opt/splunkforwarder'
       }
       $pkgname    = 'splunkforwarder'
@@ -143,7 +143,7 @@ class splunk (
     }
     'hfw','lwf': {
       $splunkhome = $::osfamily ? {
-        'windows' => 'C:\Program Files\Splunk',
+        'windows' => 'C:/Program Files/Splunk',
         default   => '/opt/splunk'
       }
       $pkgname    = 'splunk'
@@ -151,7 +151,7 @@ class splunk (
     }
     default: {
       $splunkhome = $::osfamily ? {
-        'windows' => 'C:\Program Files\Splunk',
+        'windows' => 'C:/Program Files/Splunk',
         default   => '/opt/splunk'
       }
       $pkgname    = 'splunk'
