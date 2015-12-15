@@ -23,7 +23,7 @@ class splunk::params {
     $service_enable = true
   }
 
-  case $ostype {
+  case $::osfamily {
     'windows': {
       $service_name     = 'SplunkForwarder'
       $package_provider = 'chocolatey'
