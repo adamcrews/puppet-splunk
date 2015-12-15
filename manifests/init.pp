@@ -118,7 +118,7 @@ class splunk (
   $target_group      = $::splunk::params::target_group,
   $type              = $::splunk::params::type,
   $package_source    = undef,
-  $package_provider  = $::splunk::package_provider,
+  $package_provider  = $::splunk::params::package_provider,
   $version           = $::splunk::params::version,
   $replace_passwd    = $::splunk::params::replace_passwd,
   $user              = $::splunk::params::user,
