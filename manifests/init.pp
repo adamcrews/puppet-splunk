@@ -102,6 +102,7 @@ class splunk (
   $configure_outputs = $::splunk::params::configure_outputs,
   $service_ensure    = $::splunk::params::service_ensure,
   $service_enable    = $::splunk::params::service_enable,
+  $service_name      = $::splunk::params::service_name,
   $index             = $::splunk::params::index,
   $index_hash        = $::splunk::params::index_hash,
   $indexandforward   = false,
@@ -117,9 +118,13 @@ class splunk (
   $target_group      = $::splunk::params::target_group,
   $type              = $::splunk::params::type,
   $package_source    = undef,
-  $package_provider  = undef,
+  $package_provider  = $::splunk::package_provider,
   $version           = $::splunk::params::version,
   $replace_passwd    = $::splunk::params::replace_passwd,
+  $user              = $::splunk::params::user,
+  $group             = $::splunk::params::group,
+  $root_user         = $::splunk::params::root_user,
+  $root_group        = $::splunk::params::root_group,
 ) inherits splunk::params {
 
 # Added the preseed hack after getting the idea from very cool
@@ -129,22 +134,30 @@ class splunk (
   validate_string($type)
   case $type {
     'uf': {
+      $splunkhome = $::osfamily ? {
+        'windows' => 'C:\Program Files\SplunkUniversalForwarder',
+        default   => '/opt/splunkforwarder'
+      }
       $pkgname    = 'splunkforwarder'
-      $splunkhome = '/opt/splunkforwarder'
       $license    = undef
     }
     'hfw','lwf': {
-      $splunkhome = '/opt/splunk'
+      $splunkhome = $::osfamily ? {
+        'windows' => 'C:\Program Files\Splunk',
+        default   => '/opt/splunk'
+      }
       $pkgname    = 'splunk'
       $license    = 'puppet:///modules/splunk/noarch/opt/splunk/etc/splunk-forwarder.license'
     }
     default: {
-      $splunkhome = '/opt/splunk'
+      $splunkhome = $::osfamily ? {
+        'windows' => 'C:\Program Files\Splunk',
+        default   => '/opt/splunk'
+      }
       $pkgname    = 'splunk'
       $license    = undef
     }
   }
-
 
   if ( $purge ) {
     validate_bool($purge)

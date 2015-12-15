@@ -22,4 +22,24 @@ class splunk::params {
     $service_ensure = 'running'
     $service_enable = true
   }
+
+  case $ostype {
+    'windows': {
+      $service_name     = 'SplunkForwarder'
+      $package_provider = 'chocolatey'
+      $user             = undef
+      $group            = undef
+      # TODO: this should probably be set to Administrator or similar
+      $root_user        = undef
+      $root_group       = undef
+    }
+
+    default: {
+      $service_name = 'splunk'
+      $user         = 'splunk'
+      $group        = 'splunk'
+      $root_user    = 'root'
+      $root_group   = 'root'
+    }
+  }
 }

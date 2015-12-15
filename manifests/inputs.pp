@@ -1,5 +1,5 @@
-# == Class: splunk::inputs 
-# 
+# == Class: splunk::inputs
+#
 # Manage the inputs.conf file
 #
 # === Parameters
@@ -13,7 +13,7 @@
 #   Default: $fqdn
 #
 # [*source*]
-#   The default source to monitor.  It is better to use the 
+#   The default source to monitor.  It is better to use the
 #   splunk::inputs::<module> types to manage the sources.
 #   Default: undef
 #
@@ -62,6 +62,8 @@ class splunk::inputs (
   $syslog_routing            = undef,
   $index_and_forward_routing = undef,
   $custom_hash               = undef,
+  $user                      = $::splunk::user,
+  $group                     = $::splunk::group,
   ) {
 
   validate_absolute_path("${path}/inputs.conf")
@@ -77,18 +79,18 @@ class splunk::inputs (
     validate_re($queue, '^(parsingQueue|indexQueue)')
   }
 
-  if $tcp_routing { 
+  if $tcp_routing {
     validate_array($tcp_routing)
   }
 
-  if $syslog_routing { 
+  if $syslog_routing {
     validate_array($syslog_routing)
   }
 
   concat { 'inputs.conf':
     path    => "${path}/inputs.conf",
-    owner   => 'splunk',
-    group   => 'splunk',
+    owner   => $user,
+    group   => $group,
     mode    => '0644',
     warn    => true,
     require => Class['splunk::install'],
