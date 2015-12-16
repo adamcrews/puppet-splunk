@@ -55,8 +55,8 @@ define splunk::ta::files (
         { identity => $user, rights => ['read','execute'] }
       ],
       owner       => $user,
-      require     => Package[$pkgname],
-      before      => Service[$service_name],
+      require     => Class['splunk::install'],
+      before      => Class['splunk::service'],
     }
   }
 
