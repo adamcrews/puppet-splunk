@@ -16,6 +16,16 @@ class splunk::install (
   $root_group       = $::splunk::root_group,
   ) {
 
+  $splunk_perms = $::osfamily ? {
+    'windows': => undef,
+    default:   => '0644',
+  }
+
+  $root_perms = $::osfamily ? {
+    'windows': => undef,
+    default:   => '0600',
+  }
+
   package { $pkgname:
     ensure   => $version,
     provider => $package_provider,
@@ -25,7 +35,7 @@ class splunk::install (
   if $::osfamily != 'windows' {
     file { "/etc/init.d/${service_name}":
       ensure  => present,
-      mode    => '0700',
+      mode    => '0544',
       owner   => 'root',
       group   => 'root',
       source  => "puppet:///modules/splunk/${::osfamily}/etc/init.d/${service_name}",
@@ -55,7 +65,7 @@ class splunk::install (
 
   file { "${splunkhome}/etc/splunk.license":
     ensure  => present,
-    mode    => '0644',
+    mode    => $splunk_perms,
     owner   => $user,
     group   => $group,
     backup  => true,
@@ -67,7 +77,7 @@ class splunk::install (
   file { "${splunkhome}/etc/passwd":
     ensure  => present,
     replace => $replace_passwd,
-    mode    => '0600',
+    mode    => $root_perms,
     owner   => $root_user,
     group   => $root_group,
     backup  => true,
@@ -78,7 +88,7 @@ class splunk::install (
   # recursively copy the contents of the auth dir
   # This is causing a restart on the second run. - TODO
   file { "${splunkhome}/etc/auth":
-      mode               => '0600',
+      mode               => $root_perms,
       owner              => $user,
       group              => $group,
       recurse            => true,
