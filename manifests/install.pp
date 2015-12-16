@@ -108,4 +108,13 @@ class splunk::install (
     purge   => false,
     before  => Service[$service_name],
   }
+
+  file { "${splunkhome}/etc/auth/splunk.secret":
+    ensure => file,
+    mode   => $root_perms,
+    owner  => $root_user,
+    group  => $root_group,
+    backup => false,
+    before => Service[$service_name],
+  }
 }
