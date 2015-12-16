@@ -17,13 +17,13 @@ class splunk::install (
   ) {
 
   $splunk_perms = $::osfamily ? {
-    'windows': => undef,
-    default:   => '0644',
+    'windows' => undef,
+    default   => '0644',
   }
 
   $root_perms = $::osfamily ? {
-    'windows': => undef,
-    default:   => '0600',
+    'windows' => undef,
+    default   => '0600',
   }
 
   package { $pkgname:
@@ -34,7 +34,7 @@ class splunk::install (
 
   if $::osfamily != 'windows' {
     file { "/etc/init.d/${service_name}":
-      ensure  => present,
+      ensure  => file,
       mode    => '0544',
       owner   => 'root',
       group   => 'root',
