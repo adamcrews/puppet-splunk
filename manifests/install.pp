@@ -95,6 +95,7 @@ class splunk::install (
       purge              => false,
       source_permissions => ignore,
       source             => 'puppet:///modules/splunk/noarch/opt/splunk/etc/auth',
+      ignore             => [ '*/splunkweb' ],
       require            => Package[$pkgname],
       before             => Service[$service_name],
   }
