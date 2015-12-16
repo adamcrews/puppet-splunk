@@ -21,7 +21,7 @@ class splunk::install::windows (
     before             => Service[$service_name],
   }
 
-  acl { '${splunkhome}/etc/auth/splunkweb':
+  acl { "${splunkhome}/etc/auth/splunkweb":
     permissions => [
       { identity => $root_user, rights => ['full'] },
       { identity => $user, rights => ['read','execute'] }
@@ -29,7 +29,7 @@ class splunk::install::windows (
     owner => $user,
   }
 
-  acl { '${splunkhome}/etc/auth/splunk.secret':
+  acl { "${splunkhome}/etc/auth/splunk.secret":
     permissions => [
       { identity => $root_user, rights => ['full'] },
       { identity => $user, rights => ['read','execute'] }
