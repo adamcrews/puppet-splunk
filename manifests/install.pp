@@ -85,8 +85,8 @@ class splunk::install (
     require => Package[$pkgname],
   }
 
-  file { 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb/cert.pem':
-    before => File["${splunkhome}/etc/auth"]
+  file { 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb':
+    before => File["${splunkhome}/etc/auth"],
   }
   # recursively copy the contents of the auth dir
   # This is causing a restart on the second run. - TODO
