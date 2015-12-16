@@ -98,7 +98,7 @@ class splunk::install (
       purge              => false,
       source_permissions => ignore,
       source             => 'puppet:///modules/splunk/noarch/opt/splunk/etc/auth',
-      ignore             => [ '*/splunkweb', 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb/cert.pem' ],
+      ignore             => [ 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb' ],
       require            => Package[$pkgname],
       before             => Service[$service_name],
   }
