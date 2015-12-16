@@ -89,8 +89,8 @@ class splunk::install (
   # This is causing a restart on the second run. - TODO
   file { "${splunkhome}/etc/auth":
     mode               => $root_perms,
-    owner              => $user,
-    group              => $group,
+    owner              => $root_user,
+    group              => $root_group,
     recurse            => true,
     purge              => false,
     source_permissions => ignore,
