@@ -27,11 +27,11 @@ class splunk::params {
     'windows': {
       $service_name     = 'SplunkForwarder'
       $package_provider = 'chocolatey'
-      $user             = undef
-      $group            = undef
+      $user             = 'Administrator'
+      $group            = 'Administrators'
       # TODO: this should probably be set to Administrator or similar
-      $root_user        = undef
-      $root_group       = undef
+      $root_user        = 'Administrator'
+      $root_group       = 'Administrators'
     }
 
     default: {
