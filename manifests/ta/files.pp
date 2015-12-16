@@ -27,6 +27,8 @@ define splunk::ta::files (
   $splunkhome = $::splunk::splunkhome,
   $user       = $::splunk::user,
   $group      = $::splunk::group,
+  $root_user  = $::splunk::root_user,
+  $root_group = $::splunk::root_group,
 ) {
 
   File { 
@@ -45,6 +47,18 @@ define splunk::ta::files (
     purge   => false,
     source  => $configfile,
   } 
+
+  if $::osfamily == 'windows' {
+    acl { "${splunkhome}/etc/apps/${title}":
+      permissions => [
+        { identity => $root_user, rights => ['full'] },
+        { identity => $user, rights => ['read','execute'] }
+      ],
+      owner       => $user,
+      require     => Package[$pkgname],
+      before      => Service[$service_name],
+    }
+  }
 
   file { "${splunkhome}/etc/apps/${title}/local/inputs.conf":
     ensure  => file,
