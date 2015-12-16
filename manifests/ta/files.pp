@@ -30,7 +30,7 @@ define splunk::ta::files (
 ) {
 
   $file_mode = $::osfamily ? {
-    'windows' => '2000700',
+    'windows' => undef,
     default   => '0644'
   }
   File { 
