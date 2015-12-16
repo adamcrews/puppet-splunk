@@ -29,14 +29,10 @@ define splunk::ta::files (
   $group      = $::splunk::group,
 ) {
 
-  $file_mode = $::osfamily ? {
-    'windows' => undef,
-    default   => '0644'
-  }
   File { 
     owner   => $user,
     group   => $group,
-    mode    => $file_mode,
+    mode    => '0644',
     ignore  => '*.py[oc]',
     require => Class['splunk::install'],
     notify  => Class['splunk::service'],
