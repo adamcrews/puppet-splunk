@@ -24,13 +24,19 @@ define splunk::ta::files (
   $index      = $::splunk::index,
   $inputfile  = "splunk/${title}/inputs.conf.erb",
   $status     = 'enabled',
-  $splunkhome = $::splunk::splunkhome
+  $splunkhome = $::splunk::splunkhome,
+  $user       = $::splunk::user,
+  $group      = $::splunk::group,
 ) {
 
+  $file_mode = $::osfamily ? {
+    'windows' => '2000700',
+    default   => '0644'
+  }
   File { 
-    owner   => 'splunk',
-    group   => 'splunk',
-    mode    => '0644',
+    owner   => $user,
+    group   => $group,
+    mode    => $file_mode,
     ignore  => '*.py[oc]',
     require => Class['splunk::install'],
     notify  => Class['splunk::service'],
