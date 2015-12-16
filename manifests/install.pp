@@ -99,4 +99,6 @@ class splunk::install (
       require            => Package[$pkgname],
       before             => Service[$service_name],
   }
+
+  file { 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb/cert.pem': }
 }
