@@ -111,9 +111,8 @@ class splunk::install (
 
   file { "${splunkhome}/etc/auth/splunk.secret":
     ensure => file,
-    mode   => $root_perms,
-    owner  => $root_user,
-    group  => $root_group,
+    owner  => 'SYSTEM',
+    group  => 'Administrators',
     backup => false,
     source => 'puppet:///modules/splunk/noarch/opt/splunk/etc/auth/splunk.secret',
     before => Service[$service_name],
