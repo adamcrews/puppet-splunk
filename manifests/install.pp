@@ -85,12 +85,10 @@ class splunk::install (
     require => Package[$pkgname],
   }
 
-  file { 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb':
-    before => File["${splunkhome}/etc/auth"],
-  }
   # recursively copy the contents of the auth dir
   # This is causing a restart on the second run. - TODO
-  file { "${splunkhome}/etc/auth":
+  if $::osfamily != 'windows' {
+    file { "${splunkhome}/etc/auth":
       mode               => $root_perms,
       owner              => $user,
       group              => $group,
@@ -98,9 +96,8 @@ class splunk::install (
       purge              => false,
       source_permissions => ignore,
       source             => 'puppet:///modules/splunk/noarch/opt/splunk/etc/auth',
-      ignore             => [ 'C:/Program Files/SplunkUniversalForwarder/etc/auth/splunkweb' ],
       require            => Package[$pkgname],
       before             => Service[$service_name],
+    }
   }
-
 }
