@@ -30,7 +30,7 @@ class splunk::params {
       $user             = 'Administrator'
       $group            = 'Administrators'
       # TODO: this should probably be set to Administrator or similar
-      $root_user        = 'Administrator'
+      $root_user        = 'SYSTEM'
       $root_group       = 'Administrators'
     }
 
