@@ -32,15 +32,13 @@ class splunk::install (
     source   => $package_source,
   }
 
-  if $::osfamily != 'windows' {
-    file { "/etc/init.d/${service_name}":
-      ensure  => file,
-      mode    => '0544',
-      owner   => 'root',
-      group   => 'root',
-      source  => "puppet:///modules/splunk/${::osfamily}/etc/init.d/${service_name}",
-      require => Package[$pkgname],
-      notify  => Service[$service_name],
+  case $::osfamily {
+    'windows': {
+      include ::splunk::install::windows
+    }
+
+    default: {
+      include ::splunk::install::linux
     }
   }
 
@@ -83,38 +81,5 @@ class splunk::install (
     backup  => true,
     content => template('splunk/opt/splunk/etc/passwd.erb'),
     require => Package[$pkgname],
-  }
-
-  # recursively copy the contents of the auth dir
-  # This is causing a restart on the second run. - TODO
-  file { "${splunkhome}/etc/auth":
-    mode               => $splunk_perms,
-    owner              => $user,
-    group              => $group,
-    recurse            => true,
-    purge              => false,
-    source_permissions => ignore,
-    source             => 'puppet:///modules/splunk/noarch/opt/splunk/etc/auth',
-    require            => Package[$pkgname],
-    before             => Service[$service_name],
-  }
-
-  file { "${splunkhome}/etc/auth/splunkweb":
-    ensure  => directory,
-    mode    => $root_perms,
-    owner   => $root_user,
-    group   => $root_group,
-    recurse => true,
-    purge   => false,
-    before  => Service[$service_name],
-  }
-
-  file { "${splunkhome}/etc/auth/splunk.secret":
-    ensure => file,
-    owner  => 'SYSTEM',
-    group  => 'Administrators',
-    backup => false,
-    source => 'puppet:///modules/splunk/noarch/opt/splunk/etc/auth/splunk.secret',
-    before => Service[$service_name],
   }
 }

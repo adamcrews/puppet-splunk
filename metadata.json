@@ -11,18 +11,28 @@
   "dependencies": [
     {"name":"puppetlabs/inifile","version_requirement":">=1.0.0"},
     {"name":"puppetlabs/stdlib","version_requirement":">=3.2.0"}
+    {"name":"puppetlabs/acl","version_requirement":">=1.1.2"}
   ],
   "operatingsystem_support": [
-  {
-  "operatingsystem":"RedHat",
-  "operatingsystemrelease":[ "5.0", "6.0" ]
-  },
-  {
-  "operatingsystem": "Ubuntu",
-  "operatingsystemrelease": [
-    "12.04",
-    "10.04"
-    ]
-  }
-]
+    {
+      "operatingsystem":"RedHat",
+      "operatingsystemrelease":[ "5.0", "6.0" ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [ "12.04", "10.04" ]
+    },
+    "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+        "Server 2003",
+        "Server 2003 R2",
+        "Server 2008",
+        "Server 2008 R2",
+        "Server 2012",
+        "Server 2012 R2",
+        "7",
+        "8"
+      ]
+    }
+  ]
 }
