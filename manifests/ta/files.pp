@@ -32,13 +32,14 @@ define splunk::ta::files (
 ) {
 
   File { 
-    owner   => $user,
-    group   => $group,
-    mode    => '0644',
-    ignore  => '*.py[oc]',
-    require => Class['splunk::install'],
-    notify  => Class['splunk::service'],
-    before  => Ini_setting["Enable Splunk ${title} TA"],
+    owner              => $user,
+    group              => $group,
+    mode               => '0644',
+    ignore             => '*.py[oc]',
+    source_permissions => ignore,
+    require            => Class['splunk::install'],
+    notify             => Class['splunk::service'],
+    before             => Ini_setting["Enable Splunk ${title} TA"],
   }
 
   file { "${splunkhome}/etc/apps/${title}":
@@ -46,11 +47,17 @@ define splunk::ta::files (
     recurse            => true,
     purge              => false,
     source             => $configfile,
-    source_permissions => ignore,
   } 
 
   if $::osfamily == 'windows' {
-    acl { "${splunkhome}/etc/apps/${title}":
+    $file_paths = [ 
+      "${splunkhome}/etc/apps/${title}",
+      "${splunkhome}/etc/apps/${title}/metadata",
+      "${splunkhome}/etc/apps/${title}/local",
+      "${splunkhome}/etc/apps/${title}/certs",
+    ]
+
+    acl { $file_paths:
       permissions => [
         { identity => $root_user, rights => ['full'] },
         { identity => $user, rights => ['read','execute'] }
