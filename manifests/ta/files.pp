@@ -42,10 +42,11 @@ define splunk::ta::files (
   }
 
   file { "${splunkhome}/etc/apps/${title}":
-    ensure  => present,
-    recurse => true,
-    purge   => false,
-    source  => $configfile,
+    ensure             => present,
+    recurse            => true,
+    purge              => false,
+    source             => $configfile,
+    source_permissions => ignore,
   } 
 
   if $::osfamily == 'windows' {
