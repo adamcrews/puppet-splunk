@@ -1,5 +1,5 @@
 require 'find'
-Facter.add(:splunk_version, :timeout => 30) do
+Facter.add(:splunk_version) do
   confine :kernel => :linux
   setcode do
     command = ''
@@ -12,9 +12,9 @@ Facter.add(:splunk_version, :timeout => 30) do
       end
     end
     if command != ''
-      version = Facter::Util::Resolution.exec("#{command} --no-prompt --answer-yes --accept-license version")
+      version = Facter::Core::Execution.execute("#{command} --no-prompt --answer-yes --accept-license version", :timeout => 30)
     elsif command == ''
-      version = Facter::Util::Resolution.exec('splunk --no-prompt --answer-yes --accept-license version')
+      version = Facter::Core::Execution.execute('splunk --no-prompt --answer-yes --accept-license version', :timeout => 30)
     end
     if version
       version.match(/[\d+\.]+\s/).to_s
